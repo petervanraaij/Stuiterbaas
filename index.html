@@ -6,19 +6,34 @@
   <title>Stuiterbaas | Springkussenverhuur</title>
   <meta name="description" content="Stuiterbaas verhuurt een groot professioneel kasteel-springkussen voor particuliere feestjes op privéterrein. Inclusief opzetten en afbreken." />
   <meta name="theme-color" content="#ffd21a" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles-v3.css" />
 </head>
 <body>
   <header class="site-header">
     <div class="wrap nav">
-      <a class="brand" href="#top" aria-label="Stuiterbaas home"><img src="stuiterbaas-logo.png" alt="Stuiterbaas Springkussenverhuur" /></a>
-      <nav>
+      <nav class="main-nav" aria-label="Hoofdnavigatie">
         <a href="#aanbod">Springkussen</a>
         <a href="#fotos">Foto's</a>
         <a href="#werkwijze">Werkwijze</a>
         <a href="#veiligheid">Veiligheid</a>
-        <a href="#contact" class="nav-cta">Reserveren</a>
       </nav>
+
+      <details class="mobile-menu">
+        <summary>☰ Menu</summary>
+        <div class="mobile-menu-panel">
+          <a href="#aanbod">Springkussen</a>
+          <a href="#fotos">Foto's</a>
+          <a href="#werkwijze">Werkwijze</a>
+          <a href="#veiligheid">Veiligheid</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </details>
+
+      <a class="brand" href="#top" aria-label="Stuiterbaas home">
+        <img src="stuiterbaas-logo.png" alt="Stuiterbaas Springkussenverhuur" />
+        <span>Zorgeloos springplezier</span>
+      </a>
+      <a href="#contact" class="nav-cta">Reserveren</a>
     </div>
   </header>
 
@@ -37,6 +52,7 @@
             <span>✓ €95 per dag</span>
             <span>✓ Opzetten & afbreken inbegrepen</span>
             <span>✓ Dicht dak</span>
+            <span>✓ 230V-stroompunt nodig</span>
           </div>
         </div>
         <div class="hero-photo">
@@ -74,6 +90,7 @@
             <h3>Bij de prijs inbegrepen</h3>
             <p>Bezorgen, opzetten en afbreken binnen een straal van <strong>10 km vanaf Wamel of Nieuwegein</strong>.</p>
             <p>Verder weg is bespreekbaar. Meerdere dagen huren kan ook; prijs op aanvraag.</p>
+            <p class="power-note"><strong>Stroom:</strong> op locatie moet een werkend, geaard 230V-stroompunt aanwezig zijn in de buurt van de opstelplek.</p>
             <div class="mini-actions two-actions">
               <a class="btn primary" href="tel:+31623114434">📞 Bellen</a>
               <a class="btn secondary" href="mailto:verhuur@stuiterbaas.nl?subject=Reserveringsaanvraag%20Stuiterbaas&body=Naam:%0D%0ATelefoon:%0D%0AAdres:%0D%0ADatum:%0D%0AGewenste%20tijden:%0D%0A">✉️ Mailen</a>
@@ -146,6 +163,7 @@
           <details><summary>Is bezorgen inbegrepen?</summary><p>Ja, bezorgen, opzetten en afbreken is inbegrepen binnen 10 km vanaf Wamel of Nieuwegein. Verder weg is bespreekbaar.</p></details>
           <details><summary>Kan ik meerdere dagen huren?</summary><p>Ja. Meerdere dagen zijn bespreekbaar; daarvoor maken we een prijs op aanvraag.</p></details>
           <details><summary>Heeft het springkussen een dak?</summary><p>Ja, dit model heeft een dicht dak.</p></details>
+          <details><summary>Wat moet ik zelf regelen?</summary><p>Zorg voor voldoende vrije ruimte en een werkend, geaard 230V-stroompunt in de buurt van de plek waar het springkussen wordt opgebouwd.</p></details>
           <details><summary>Hoe reserveer ik?</summary><p>Bel 06-23114434 of mail naar verhuur@stuiterbaas.nl met je naam, datum, locatie en gewenste tijden.</p></details>
         </div>
       </div>
@@ -154,7 +172,7 @@
     <section class="section contact" id="contact">
       <div class="wrap contact-box">
         <div class="contact-copy">
-          <img class="contact-logo" src="stuiterbaas-logo.png" alt="Stuiterbaas logo" />
+          <div class="contact-brand"><img class="contact-logo" src="stuiterbaas-logo.png" alt="Stuiterbaas logo" /><span>Zorgeloos springplezier</span></div>
           <span class="eyebrow">Beschikbaarheid</span>
           <h2>Wanneer mag hij bij jou staan?</h2>
           <p>Neem contact op met je gewenste datum en locatie. We laten je zo snel mogelijk weten of het springkussen beschikbaar is.</p>
@@ -170,7 +188,7 @@
 
   <footer>
     <div class="wrap footer-grid">
-      <div><strong>Stuiterbaas</strong><br><span>Springkussenverhuur</span></div>
+      <div class="footer-brand"><img src="stuiterbaas-logo.png" alt="Stuiterbaas" /><span>Zorgeloos springplezier</span></div>
       <div>Wamel & Nieuwegein</div>
       <div><a href="mailto:verhuur@stuiterbaas.nl">verhuur@stuiterbaas.nl</a></div>
     </div>
