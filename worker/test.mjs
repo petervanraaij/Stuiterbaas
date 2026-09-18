@@ -1,16 +1,13 @@
 import assert from "node:assert/strict";
-import worker, { readAndValidate } from "./src/index.js";
+import worker, { escapeHtml, readAndValidate } from "./src/index.js";
 
 const origin = "https://stuiterbaas.nl";
 const baseEnv = {
   ALLOWED_ORIGIN: origin,
   TURNSTILE_SECRET_KEY: "turnstile-secret",
-  WHATSAPP_ACCESS_TOKEN: "whatsapp-secret",
-  WHATSAPP_PHONE_NUMBER_ID: "123456789",
-  OWNER_WHATSAPP: "31683542218",
-  WHATSAPP_API_VERSION: "vXX.X",
-  WHATSAPP_TEMPLATE_NAME: "stuiterbaas_nieuwe_reservering",
-  WHATSAPP_TEMPLATE_LANGUAGE: "nl"
+  RESEND_API_KEY: "resend-secret",
+  BOOKING_TO_EMAIL: "verhuur@stuiterbaas.nl",
+  BOOKING_FROM_EMAIL: "Stuiterbaas Reserveringen <reserveringen@stuiterbaas.nl>"
 };
 
 const validPayload = {
@@ -31,6 +28,7 @@ const validPayload = {
 };
 
 assert.equal(readAndValidate(validPayload).data.name, "Peter");
+assert.equal(escapeHtml("<script>&\"'"), "&lt;script&gt;&amp;&quot;&#039;");
 assert.throws(
   () => readAndValidate({ ...validPayload, privateSite: false }),
   /Bevestig alle voorwaarden/
@@ -60,7 +58,7 @@ globalThis.fetch = async (url, options) => {
       headers: { "Content-Type": "application/json" }
     });
   }
-  return new Response(JSON.stringify({ messages: [{ id: "wamid.test" }] }), {
+  return new Response(JSON.stringify({ id: "email-test" }), {
     status: 200,
     headers: { "Content-Type": "application/json" }
   });
@@ -75,14 +73,16 @@ try {
 
   assert.equal(response.status, 202);
   assert.equal(requests.length, 2);
-  assert.match(requests[1].url, /123456789\/messages$/);
+  assert.equal(requests[1].url, "https://api.resend.com/emails");
+  assert.equal(requests[1].options.headers.Authorization, "Bearer resend-secret");
   const message = JSON.parse(requests[1].options.body);
-  assert.equal(message.to, "31683542218");
-  assert.equal(message.type, "template");
-  assert.equal(message.template.components[0].parameters[0].text, "Peter");
+  assert.deepEqual(message.to, ["verhuur@stuiterbaas.nl"]);
+  assert.equal(message.reply_to, "peter@example.nl");
+  assert.match(message.subject, /Peter/);
+  assert.match(message.text, /Telefoon: 06 12 34 56 78/);
+  assert.match(message.html, /Nieuwe reserveringsaanvraag/);
 } finally {
   globalThis.fetch = nativeFetch;
 }
 
 console.log("Worker tests passed.");
-
