@@ -77,54 +77,68 @@ const readAndValidate = (raw) => {
   return { data, spam: false };
 };
 
-const sendWhatsappNotification = async (data, env) => {
-  const required = [
-    "WHATSAPP_ACCESS_TOKEN",
-    "WHATSAPP_PHONE_NUMBER_ID",
-    "OWNER_WHATSAPP",
-    "WHATSAPP_API_VERSION",
-    "WHATSAPP_TEMPLATE_NAME",
-    "WHATSAPP_TEMPLATE_LANGUAGE"
-  ];
+const escapeHtml = (value) => String(value || "")
+  .replace(/&/g, "&amp;")
+  .replace(/</g, "&lt;")
+  .replace(/>/g, "&gt;")
+  .replace(/"/g, "&quot;")
+  .replace(/'/g, "&#039;");
+
+const sendEmailNotification = async (data, env) => {
+  const required = ["RESEND_API_KEY", "BOOKING_TO_EMAIL", "BOOKING_FROM_EMAIL"];
   if (required.some((key) => !env[key])) {
-    throw new Error("WhatsApp configuration is incomplete.");
+    throw new Error("Email configuration is incomplete.");
   }
 
-  const message = {
-    messaging_product: "whatsapp",
-    to: env.OWNER_WHATSAPP,
-    type: "template",
-    template: {
-      name: env.WHATSAPP_TEMPLATE_NAME,
-      language: { code: env.WHATSAPP_TEMPLATE_LANGUAGE },
-      components: [{
-        type: "body",
-        parameters: [
-          { type: "text", text: data.name },
-          { type: "text", text: data.phone },
-          { type: "text", text: data.date },
-          { type: "text", text: data.startTime + " – " + data.endTime },
-          { type: "text", text: data.location },
-          { type: "text", text: data.email || "Niet ingevuld" },
-          { type: "text", text: data.notes || "Geen opmerkingen" }
-        ]
-      }]
-    }
-  };
+  const fields = [
+    ["Naam", data.name],
+    ["Telefoon", data.phone],
+    ["E-mail", data.email || "Niet ingevuld"],
+    ["Datum", data.date],
+    ["Tijd", data.startTime + " – " + data.endTime],
+    ["Locatie", data.location],
+    ["Opmerking", data.notes || "Geen opmerkingen"]
+  ];
+  const textBody = [
+    "Nieuwe reserveringsaanvraag via stuiterbaas.nl",
+    "",
+    ...fields.map(([label, value]) => label + ": " + value),
+    "",
+    "De aanvrager bevestigde: privéterrein, geschikt stroompunt, een volwassen helper en toestemming om contact op te nemen.",
+    "",
+    "Deze aanvraag is nog geen definitieve reservering."
+  ].join("\n");
+  const rows = fields.map(([label, value]) =>
+    "<tr><th align=\"left\" style=\"padding:6px 14px 6px 0;vertical-align:top\">" + escapeHtml(label) +
+    "</th><td style=\"padding:6px 0\">" + escapeHtml(value) + "</td></tr>"
+  ).join("");
+  const htmlBody =
+    "<h1 style=\"font-size:20px\">Nieuwe reserveringsaanvraag</h1>" +
+    "<table style=\"border-collapse:collapse\">" + rows + "</table>" +
+    "<p>De aanvrager bevestigde: privéterrein, geschikt stroompunt, een volwassen helper en toestemming om contact op te nemen.</p>" +
+    "<p><strong>Deze aanvraag is nog geen definitieve reservering.</strong></p>";
 
-  const url = "https://graph.facebook.com/" + env.WHATSAPP_API_VERSION + "/" + env.WHATSAPP_PHONE_NUMBER_ID + "/messages";
-  const response = await fetch(url, {
+  const message = {
+    from: env.BOOKING_FROM_EMAIL,
+    to: [env.BOOKING_TO_EMAIL],
+    subject: "Reserveringsaanvraag " + data.date + " – " + data.name,
+    text: textBody,
+    html: htmlBody
+  };
+  if (data.email) message.reply_to = data.email;
+
+  const response = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
-      "Authorization": "Bearer " + env.WHATSAPP_ACCESS_TOKEN,
+      "Authorization": "Bearer " + env.RESEND_API_KEY,
       "Content-Type": "application/json"
     },
     body: JSON.stringify(message)
   });
 
   if (!response.ok) {
-    console.error("WhatsApp API rejected the booking notification.", response.status);
-    throw new Error("WhatsApp notification failed.");
+    console.error("Email provider rejected the booking notification.", response.status);
+    throw new Error("Email notification failed.");
   }
 };
 
@@ -174,7 +188,7 @@ export default {
         return json({ message: "De beveiligingscontrole is verlopen. Probeer het opnieuw." }, 400, origin);
       }
 
-      await sendWhatsappNotification(data, env);
+      await sendEmailNotification(data, env);
       return json({ ok: true }, 202, origin);
     } catch (error) {
       const isValidationError = error instanceof ValidationError;
@@ -185,5 +199,4 @@ export default {
   }
 };
 
-export { clean, isAllowedOrigin, readAndValidate };
-
+export { clean, escapeHtml, isAllowedOrigin, readAndValidate };
