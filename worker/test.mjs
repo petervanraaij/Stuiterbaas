@@ -7,7 +7,7 @@ const baseEnv = {
   TURNSTILE_SECRET_KEY: "turnstile-secret",
   WHATSAPP_ACCESS_TOKEN: "whatsapp-secret",
   WHATSAPP_PHONE_NUMBER_ID: "123456789",
-  OWNER_WHATSAPP: "31600000000",
+  OWNER_WHATSAPP: "31683542218",
   WHATSAPP_API_VERSION: "vXX.X",
   WHATSAPP_TEMPLATE_NAME: "stuiterbaas_nieuwe_reservering",
   WHATSAPP_TEMPLATE_LANGUAGE: "nl"
@@ -77,7 +77,7 @@ try {
   assert.equal(requests.length, 2);
   assert.match(requests[1].url, /123456789\/messages$/);
   const message = JSON.parse(requests[1].options.body);
-  assert.equal(message.to, "31600000000");
+  assert.equal(message.to, "31683542218");
   assert.equal(message.type, "template");
   assert.equal(message.template.components[0].parameters[0].text, "Peter");
 } finally {

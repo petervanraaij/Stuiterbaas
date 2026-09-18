@@ -4,6 +4,7 @@ compatibility_date = "2026-09-18"
 
 [vars]
 ALLOWED_ORIGIN = "https://stuiterbaas.nl"
+OWNER_WHATSAPP = "31683542218"
 WHATSAPP_TEMPLATE_NAME = "stuiterbaas_nieuwe_reservering"
 WHATSAPP_TEMPLATE_LANGUAGE = "nl"
 
