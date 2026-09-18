@@ -96,7 +96,7 @@ h2{font-size:clamp(2rem,4vw,3.2rem);line-height:1.04;letter-spacing:-.045em;marg
 .power-box p{margin:3px 0 0;color:var(--ink)!important;font-size:.94rem}
 
 /* Gallery */
-.gallery{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:240px;gap:16px}
+.gallery{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:minmax(240px,auto);gap:16px}
 .gallery figure{position:relative;margin:0;border-radius:22px;overflow:hidden;background:#d9e4ef;box-shadow:0 8px 26px rgba(19,34,59,.08)}
 .gallery img{width:100%;height:100%;object-fit:cover;transition:transform .35s ease}
 .gallery figure:hover img{transform:scale(1.02)}
