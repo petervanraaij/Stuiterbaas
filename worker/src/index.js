@@ -1,0 +1,202 @@
+const JSON_HEADERS = { "Content-Type": "application/json; charset=utf-8" };
+class ValidationError extends Error {}
+
+const json = (body, status, origin) => new Response(JSON.stringify(body), {
+  status,
+  headers: {
+    ...JSON_HEADERS,
+    "Access-Control-Allow-Origin": origin,
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Vary": "Origin",
+    "Cache-Control": "no-store"
+  }
+});
+
+const clean = (value, maxLength) => String(value || "")
+  .replace(/[\u0000-\u001f\u007f]/g, " ")
+  .replace(/\s+/g, " ")
+  .trim()
+  .slice(0, maxLength);
+
+const isAllowedOrigin = (requestOrigin, allowedOrigin) =>
+  Boolean(requestOrigin && allowedOrigin && requestOrigin === allowedOrigin);
+
+const verifyTurnstile = async (token, secret, remoteIp) => {
+  const body = new FormData();
+  body.append("secret", secret);
+  body.append("response", token);
+  if (remoteIp) body.append("remoteip", remoteIp);
+
+  const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+    method: "POST",
+    body
+  });
+  const result = await response.json();
+  return result.success === true;
+};
+
+const readAndValidate = (raw) => {
+  const data = {
+    name: clean(raw.name, 80),
+    phone: clean(raw.phone, 30),
+    email: clean(raw.email, 120),
+    date: clean(raw.date, 10),
+    location: clean(raw.location, 140),
+    startTime: clean(raw.startTime, 5),
+    endTime: clean(raw.endTime, 5),
+    notes: clean(raw.notes, 600),
+    website: clean(raw.website, 120),
+    turnstileToken: clean(raw.turnstileToken, 2048),
+    privateSite: raw.privateSite === true,
+    powerAvailable: raw.powerAvailable === true,
+    adultHelper: raw.adultHelper === true,
+    privacyConsent: raw.privacyConsent === true
+  };
+
+  if (data.website) return { data, spam: true };
+  if (!data.name || !data.phone || !data.location || !data.date || !data.startTime || !data.endTime) {
+    throw new ValidationError("Vul alle verplichte velden in.");
+  }
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(data.date) || !/^\d{2}:\d{2}$/.test(data.startTime) || !/^\d{2}:\d{2}$/.test(data.endTime)) {
+    throw new ValidationError("Controleer de datum en tijden.");
+  }
+  const requestedDate = new Date(data.date + "T23:59:59Z");
+  if (Number.isNaN(requestedDate.getTime()) || requestedDate < new Date()) {
+    throw new ValidationError("Kies een datum vanaf vandaag.");
+  }
+  if (data.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+    throw new ValidationError("Controleer het e-mailadres.");
+  }
+  if (!data.privateSite || !data.powerAvailable || !data.adultHelper || !data.privacyConsent) {
+    throw new ValidationError("Bevestig alle voorwaarden voor de aanvraag.");
+  }
+  if (!data.turnstileToken) {
+    throw new ValidationError("Voltooi de beveiligingscontrole.");
+  }
+  return { data, spam: false };
+};
+
+const escapeHtml = (value) => String(value || "")
+  .replace(/&/g, "&amp;")
+  .replace(/</g, "&lt;")
+  .replace(/>/g, "&gt;")
+  .replace(/"/g, "&quot;")
+  .replace(/'/g, "&#039;");
+
+const sendEmailNotification = async (data, env) => {
+  const required = ["RESEND_API_KEY", "BOOKING_TO_EMAIL", "BOOKING_FROM_EMAIL"];
+  if (required.some((key) => !env[key])) {
+    throw new Error("Email configuration is incomplete.");
+  }
+
+  const fields = [
+    ["Naam", data.name],
+    ["Telefoon", data.phone],
+    ["E-mail", data.email || "Niet ingevuld"],
+    ["Datum", data.date],
+    ["Tijd", data.startTime + " – " + data.endTime],
+    ["Locatie", data.location],
+    ["Opmerking", data.notes || "Geen opmerkingen"]
+  ];
+  const textBody = [
+    "Nieuwe reserveringsaanvraag via stuiterbaas.nl",
+    "",
+    ...fields.map(([label, value]) => label + ": " + value),
+    "",
+    "De aanvrager bevestigde: privéterrein, geschikt stroompunt, een volwassen helper en toestemming om contact op te nemen.",
+    "",
+    "Deze aanvraag is nog geen definitieve reservering."
+  ].join("\n");
+  const rows = fields.map(([label, value]) =>
+    "<tr><th align=\"left\" style=\"padding:6px 14px 6px 0;vertical-align:top\">" + escapeHtml(label) +
+    "</th><td style=\"padding:6px 0\">" + escapeHtml(value) + "</td></tr>"
+  ).join("");
+  const htmlBody =
+    "<h1 style=\"font-size:20px\">Nieuwe reserveringsaanvraag</h1>" +
+    "<table style=\"border-collapse:collapse\">" + rows + "</table>" +
+    "<p>De aanvrager bevestigde: privéterrein, geschikt stroompunt, een volwassen helper en toestemming om contact op te nemen.</p>" +
+    "<p><strong>Deze aanvraag is nog geen definitieve reservering.</strong></p>";
+
+  const message = {
+    from: env.BOOKING_FROM_EMAIL,
+    to: [env.BOOKING_TO_EMAIL],
+    subject: "Reserveringsaanvraag " + data.date + " – " + data.name,
+    text: textBody,
+    html: htmlBody
+  };
+  if (data.email) message.reply_to = data.email;
+
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      "Authorization": "Bearer " + env.RESEND_API_KEY,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(message)
+  });
+
+  if (!response.ok) {
+    console.error("Email provider rejected the booking notification.", response.status);
+    throw new Error("Email notification failed.");
+  }
+};
+
+export default {
+  async fetch(request, env) {
+    const origin = request.headers.get("Origin") || "";
+    if (!isAllowedOrigin(origin, env.ALLOWED_ORIGIN)) {
+      return json({ message: "Niet toegestaan." }, 403, env.ALLOWED_ORIGIN);
+    }
+
+    if (request.method === "OPTIONS") {
+      return new Response(null, {
+        status: 204,
+        headers: {
+          "Access-Control-Allow-Origin": origin,
+          "Access-Control-Allow-Methods": "POST, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Vary": "Origin",
+          "Cache-Control": "no-store"
+        }
+      });
+    }
+    if (request.method !== "POST") {
+      return json({ message: "Alleen POST is toegestaan." }, 405, origin);
+    }
+    if (!env.TURNSTILE_SECRET_KEY) {
+      return json({ message: "De reserveringsservice is nog niet geconfigureerd." }, 503, origin);
+    }
+
+    try {
+      const contentLength = Number(request.headers.get("Content-Length") || 0);
+      if (contentLength > 12000) {
+        return json({ message: "De aanvraag is te groot." }, 413, origin);
+      }
+
+      const raw = await request.json();
+      const result = readAndValidate(raw);
+      const data = result.data;
+      if (result.spam) return json({ ok: true }, 202, origin);
+
+      const turnstileOk = await verifyTurnstile(
+        data.turnstileToken,
+        env.TURNSTILE_SECRET_KEY,
+        request.headers.get("CF-Connecting-IP")
+      );
+      if (!turnstileOk) {
+        return json({ message: "De beveiligingscontrole is verlopen. Probeer het opnieuw." }, 400, origin);
+      }
+
+      await sendEmailNotification(data, env);
+      return json({ ok: true }, 202, origin);
+    } catch (error) {
+      const isValidationError = error instanceof ValidationError;
+      const userError = isValidationError ? error.message : "De aanvraag kon niet worden verstuurd.";
+      const status = isValidationError ? 400 : 502;
+      return json({ message: userError }, status, origin);
+    }
+  }
+};
+
+export { clean, escapeHtml, isAllowedOrigin, readAndValidate };

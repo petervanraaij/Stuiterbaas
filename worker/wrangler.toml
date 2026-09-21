@@ -1,0 +1,8 @@
+name = "stuiterbaas-reserveren"
+main = "src/index.js"
+compatibility_date = "2026-09-18"
+
+[vars]
+ALLOWED_ORIGIN = "https://stuiterbaas.nl"
+BOOKING_TO_EMAIL = "verhuur@stuiterbaas.nl"
+BOOKING_FROM_EMAIL = "Stuiterbaas Reserveringen <reserveringen@stuiterbaas.nl>"

@@ -1,0 +1,8 @@
+worker/node_modules/
+worker/.wrangler/
+worker/.wrangler-config/
+worker/.npm-cache/
+worker/.deploy-direct.mjs
+worker/.deploy-result.json
+worker/.check-cloudflare-user.mjs
+test-*.png
