@@ -164,21 +164,21 @@
           </label>
           <p class="rental-summary" id="rental-summary" aria-live="polite">€95 huur + €50 borg = €145 totaal.</p>
 
+          <div class="form-row two-columns">
+            <label>
+              <span>Gewenste brengtijd *</span>
+              <input type="time" name="startTime" required />
+            </label>
+            <label>
+              <span id="end-time-label">Gewenste ophaaltijd *</span>
+              <input type="time" name="endTime" required />
+            </label>
+          </div>
+
           <label class="form-row">
             <span>Waar komt het springkussen? *</span>
             <input type="text" name="location" autocomplete="street-address" maxlength="140" required />
           </label>
-
-          <div class="form-row two-columns">
-            <label>
-              <span>Gewenste starttijd *</span>
-              <input type="time" name="startTime" required />
-            </label>
-            <label>
-              <span id="end-time-label">Gewenste eindtijd *</span>
-              <input type="time" name="endTime" required />
-            </label>
-          </div>
 
           <label class="form-row">
             <span>Opmerking <small>optioneel</small></span>
@@ -208,6 +208,6 @@
     <div class="wrap footer-credit"><span>Website gemaakt en beheerd door</span><a class="solutions-logo-link" href="https://solutions.vanraaijservice.nl/" target="_blank" rel="noopener noreferrer" aria-label="Van Raaij Solutions — opent in een nieuw tabblad"><img src="van-raaij-solutions-logo.webp" alt="Van Raaij Solutions" width="1774" height="887" loading="lazy" decoding="async"></a></div>
   </footer>
   <script src="booking-config.js"></script>
-  <script src="booking.js?v=3"></script>
+  <script src="booking.js?v=4"></script>
 </body>
 </html>

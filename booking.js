@@ -24,7 +24,7 @@
     const days = Number(form.elements.rentalDays.value);
     const rent = days === 2 ? 150 : 95;
     let summary = '€' + rent + ' huur + €50 borg = €' + (rent + 50) + ' totaal.';
-    document.querySelector('#end-time-label').textContent = days === 2 ? 'Eindtijd op de tweede dag *' : 'Gewenste eindtijd *';
+    document.querySelector('#end-time-label').textContent = days === 2 ? 'Gewenste ophaaltijd op de tweede dag *' : 'Gewenste ophaaltijd *';
     if (days === 2 && dateInput.value) {
       const end = new Date(dateInput.value + 'T12:00:00Z');
       if (!Number.isNaN(end.getTime())) {
@@ -38,7 +38,7 @@
     const start = form.elements.startTime.value;
     const end = form.elements.endTime.value;
     form.elements.endTime.setCustomValidity(form.elements.rentalDays.value === '1' && start && end && end <= start
-      ? 'Kies een eindtijd na de starttijd.' : '');
+      ? 'Kies een ophaaltijd na de brengtijd.' : '');
   };
   form.elements.rentalDays.addEventListener('change', () => { updateRentalSummary(); validateTimes(); });
   form.elements.startTime.addEventListener('input', validateTimes);
