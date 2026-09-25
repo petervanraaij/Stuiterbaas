@@ -20,7 +20,22 @@
     pad(today.getDate())
   ].join("-");
 
+  const endDateInput = form.elements.endDate;
   const updateRentalSummary = () => {
+    const longer = form.elements.rentalDays.value === 'longer';
+    document.querySelector('#rental-end-date-row').hidden = !longer;
+    endDateInput.disabled = !longer;
+    endDateInput.required = longer;
+    const earliestEnd = new Date((dateInput.value || dateInput.min) + 'T12:00:00Z');
+    if (!Number.isNaN(earliestEnd.getTime())) {
+      earliestEnd.setUTCDate(earliestEnd.getUTCDate() + 2);
+      endDateInput.min = earliestEnd.toISOString().slice(0, 10);
+    }
+    if (longer) {
+      document.querySelector('#end-time-label').textContent = 'Gewenste ophaaltijd op de einddatum *';
+      document.querySelector('#rental-summary').textContent = 'Langer huren is bespreekbaar. Huurprijs in overleg, plus €50 borg.';
+      return;
+    }
     const days = Number(form.elements.rentalDays.value);
     const rent = days === 2 ? 150 : 95;
     let summary = '€' + rent + ' huur + €50 borg = €' + (rent + 50) + ' totaal.';
@@ -117,6 +132,7 @@
       email: formData.get("email"),
       date: formData.get("date"),
       rentalDays: formData.get("rentalDays"),
+      endDate: formData.get("endDate"),
       location: formData.get("location"),
       startTime: formData.get("startTime"),
       endTime: formData.get("endTime"),

@@ -160,7 +160,11 @@
 
           <label class="form-row">
             <span>Hoe lang wil je huren? *</span>
-            <select name="rentalDays" required><option value="1">1 dag — €95 huur</option><option value="2">2 aansluitende dagen — €150 huur</option></select>
+            <select name="rentalDays" required><option value="1">1 dag — €95 huur</option><option value="2">2 aansluitende dagen — €150 huur</option><option value="longer">Langer huren — in overleg</option></select>
+          </label>
+          <label class="form-row" id="rental-end-date-row" hidden>
+            <span>Gewenste einddatum *</span>
+            <input type="date" name="endDate" disabled />
           </label>
           <p class="rental-summary" id="rental-summary" aria-live="polite">€95 huur + €50 borg = €145 totaal.</p>
 
@@ -208,6 +212,6 @@
     <div class="wrap footer-credit"><span>Website gemaakt en beheerd door</span><a class="solutions-logo-link" href="https://solutions.vanraaijservice.nl/" target="_blank" rel="noopener noreferrer" aria-label="Van Raaij Solutions — opent in een nieuw tabblad"><img src="van-raaij-solutions-logo.webp" alt="Van Raaij Solutions" width="1774" height="887" loading="lazy" decoding="async"></a></div>
   </footer>
   <script src="booking-config.js"></script>
-  <script src="booking.js?v=4"></script>
+  <script src="booking.js?v=5"></script>
 </body>
 </html>
