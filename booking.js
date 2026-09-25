@@ -20,6 +20,33 @@
     pad(today.getDate())
   ].join("-");
 
+  const updateRentalSummary = () => {
+    const days = Number(form.elements.rentalDays.value);
+    const rent = days === 2 ? 150 : 95;
+    let summary = '€' + rent + ' huur + €50 borg = €' + (rent + 50) + ' totaal.';
+    document.querySelector('#end-time-label').textContent = days === 2 ? 'Eindtijd op de tweede dag *' : 'Gewenste eindtijd *';
+    if (days === 2 && dateInput.value) {
+      const end = new Date(dateInput.value + 'T12:00:00Z');
+      if (!Number.isNaN(end.getTime())) {
+        end.setUTCDate(end.getUTCDate() + 1);
+        summary += ' Einddatum: ' + end.toLocaleDateString('nl-NL', {day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}) + '.';
+      }
+    }
+    document.querySelector('#rental-summary').textContent = summary;
+  };
+  const validateTimes = () => {
+    const start = form.elements.startTime.value;
+    const end = form.elements.endTime.value;
+    form.elements.endTime.setCustomValidity(form.elements.rentalDays.value === '1' && start && end && end <= start
+      ? 'Kies een eindtijd na de starttijd.' : '');
+  };
+  form.elements.rentalDays.addEventListener('change', () => { updateRentalSummary(); validateTimes(); });
+  form.elements.startTime.addEventListener('input', validateTimes);
+  form.elements.endTime.addEventListener('input', validateTimes);
+  dateInput.addEventListener('change', updateRentalSummary);
+  form.addEventListener('reset', () => window.setTimeout(() => { updateRentalSummary(); validateTimes(); }, 0));
+  updateRentalSummary();
+
   const showStatus = (message, type) => {
     status.textContent = message;
     status.className = "booking-status is-visible is-" + type;
@@ -56,6 +83,7 @@
     event.preventDefault();
     if (submitButton.disabled) return;
     clearStatus();
+    validateTimes();
 
     if (!form.checkValidity()) {
       form.reportValidity();
@@ -88,14 +116,11 @@
       phone: formData.get("phone"),
       email: formData.get("email"),
       date: formData.get("date"),
+      rentalDays: formData.get("rentalDays"),
       location: formData.get("location"),
       startTime: formData.get("startTime"),
       endTime: formData.get("endTime"),
       notes: formData.get("notes"),
-      privateSite: formData.get("privateSite") === "on",
-      powerAvailable: formData.get("powerAvailable") === "on",
-      adultHelper: formData.get("adultHelper") === "on",
-      privacyConsent: formData.get("privacyConsent") === "on",
       website: formData.get("website"),
       turnstileToken
     };
