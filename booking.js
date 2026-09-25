@@ -1,4 +1,7 @@
 (() => {
+  document.querySelectorAll('.mobile-panel a').forEach(link => link.addEventListener('click', () => {
+    document.querySelector('.mobile-menu').open = false;
+  }));
   const form = document.querySelector("#booking-form");
   if (!form) return;
 
@@ -38,6 +41,7 @@
     script.addEventListener("load", () => {
       turnstileWidgetId = window.turnstile.render(turnstileContainer, {
         sitekey: config.turnstileSiteKey,
+        size: turnstileContainer.clientWidth < 300 ? "compact" : "normal",
         theme: "light",
         language: "nl"
       });
@@ -50,6 +54,7 @@
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
+    if (submitButton.disabled) return;
     clearStatus();
 
     if (!form.checkValidity()) {
@@ -133,6 +138,6 @@
     }
   });
 
+  submitButton.disabled = false;
   loadTurnstile();
 })();
-
