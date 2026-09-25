@@ -38,10 +38,18 @@ const verifyTurnstile = async (token, secret, remoteIp) => {
 
 const stuiterbaasRentalDetails = (raw) => {
   const rentalDays = String(raw.rentalDays ?? '1');
-  if (!['1', '2'].includes(rentalDays)) throw new ValidationError('Kies één of twee huurdagen.');
+  if (!['1', '2', 'longer'].includes(rentalDays)) throw new ValidationError('Kies één of twee huurdagen, of langer huren in overleg.');
   const date = clean(raw.date, 10);
   const start = new Date(date + 'T12:00:00Z');
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || Number.isNaN(start.getTime()) || start.toISOString().slice(0, 10) !== date) throw new ValidationError('Controleer de datum.');
+  if (rentalDays === 'longer') {
+    const endDate = clean(raw.endDate, 10);
+    const end = new Date(endDate + 'T12:00:00Z');
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(endDate) || Number.isNaN(end.getTime()) || end.toISOString().slice(0, 10) !== endDate) throw new ValidationError('Kies een geldige einddatum voor de langere huurperiode.');
+    const days = Math.round((end.getTime() - start.getTime()) / 86400000) + 1;
+    if (days < 3) throw new ValidationError('Kies bij langer huren een periode van minimaal drie dagen.');
+    return {rentalDays: days, endDate, rentalPrice: null, deposit: 50, total: null};
+  }
   start.setUTCDate(start.getUTCDate() + Number(rentalDays) - 1);
   const rentalPrice = rentalDays === '2' ? 150 : 95;
   return {rentalDays: Number(rentalDays), endDate: start.toISOString().slice(0, 10), rentalPrice, deposit: 50, total: rentalPrice + 50};
@@ -104,9 +112,9 @@ const sendEmailNotification = async (data, env) => {
     ["Huurperiode", data.rentalDays + (data.rentalDays === 1 ? " dag" : " dagen")],
     ["Van", data.date + " om " + data.startTime],
     ["Tot", data.endDate + " om " + data.endTime],
-    ["Huur", "€" + data.rentalPrice],
+    ["Huur", data.rentalPrice === null ? "In overleg" : "€" + data.rentalPrice],
     ["Borg bovenop de huur", "€" + data.deposit],
-    ["Totaal inclusief borg", "€" + data.total],
+    ["Totaal inclusief borg", data.total === null ? "Nog af te spreken; €50 borg bovenop de huur" : "€" + data.total],
     ["Locatie", data.location],
     ["Opmerking", data.notes || "Geen opmerkingen"]
   ];

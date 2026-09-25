@@ -45,6 +45,19 @@ assert.equal(readAndValidate({...validPayload,date:'2100-02-28',rentalDays:2}).d
 assert.equal(readAndValidate({...validPayload,date:'2104-02-28',rentalDays:2}).data.endDate,'2104-02-29');
 assert.equal(readAndValidate({...validPayload,date:'2099-03-29',rentalDays:2}).data.endDate,'2099-03-30');
 
+// Longer rentals are requests for a quote, never a fixed or client-supplied price.
+const longerPayload = {...validPayload, date:'2099-12-31', rentalDays:'longer', endDate:'2100-01-03', rentalPrice:1, total:1};
+const longerData = readAndValidate(longerPayload).data;
+assert.equal(longerData.rentalDays,4);
+assert.equal(longerData.endDate,'2100-01-03');
+assert.equal(longerData.rentalPrice,null);
+assert.equal(longerData.total,null);
+assert.equal(longerData.deposit,50);
+for(const endDate of ['', '2100-02-30', '<invalid>']) assert.throws(()=>readAndValidate({...longerPayload,endDate}),/einddatum/);
+for(const endDate of ['2099-12-30','2099-12-31','2100-01-01']) assert.throws(()=>readAndValidate({...longerPayload,endDate}),/minimaal drie dagen/);
+assert.equal(readAndValidate({...longerPayload,endDate:'2100-01-02'}).data.rentalDays,3);
+assert.equal(readAndValidate({...validPayload,endDate:'2100-01-03'}).data.endDate,validPayload.date);
+
 const blocked = await worker.fetch(new Request("https://worker.example", {
   method: "POST",
   headers: { Origin: "https://example.com", "Content-Type": "application/json" },
@@ -100,6 +113,14 @@ try {
   const twoDayMessage = JSON.parse(requests[1].options.body);
   for (const value of ['Huurperiode: 2 dagen','Van: 2099-12-31 om 18:00','Tot: 2100-01-01 om 10:00','Huur: €150','Borg bovenop de huur: €50','Totaal inclusief borg: €200']) assert.ok(twoDayMessage.text.includes(value),value);
   assert.doesNotMatch(twoDayMessage.text + twoDayMessage.html, /aanvrager bevestigde/);
+
+  requests.length = 0;
+  const longerResponse = await worker.fetch(new Request('https://worker.example', {method:'POST',headers:{Origin:origin,'Content-Type':'application/json'},body:JSON.stringify(longerPayload)}),baseEnv);
+  assert.equal(longerResponse.status,202);
+  const longerMessage = JSON.parse(requests[1].options.body);
+  for(const text of ['Huurperiode: 4 dagen','Huur: In overleg','Borg bovenop de huur: €50','Totaal inclusief borg: Nog af te spreken','Tot: 2100-01-03']) assert.ok(longerMessage.text.includes(text),text);
+  assert.match(longerMessage.html,/In overleg/);
+  assert.doesNotMatch(longerMessage.text + longerMessage.html,/€null|€undefined|€150|€95|€200|€145/);
 } finally {
   globalThis.fetch = nativeFetch;
 }
