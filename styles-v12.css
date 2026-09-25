@@ -263,3 +263,8 @@ button.btn{border:0;font:inherit;cursor:pointer}
   *,*:before,*:after{transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}
 }
 
+
+/* Website development and maintenance credit. */
+.footer-credit{margin-top:22px;margin-bottom:0;padding-top:16px;border-top:1px solid rgba(255,255,255,.12);font-size:.8rem;line-height:1.6;color:#aebed1}.footer-credit a{color:#d9e2ee;font-weight:600;text-decoration:underline;text-underline-offset:3px}
+
+.footer-credit a:hover{color:#fff}.footer-credit a:focus-visible{outline:2px solid currentColor;outline-offset:4px;border-radius:2px}
