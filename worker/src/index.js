@@ -1,3 +1,4 @@
+import {completeStuiterbaasBooking, stuiterbaasPhone} from './stuiterbaas-whatsapp.js';
 const JSON_HEADERS = { "Content-Type": "application/json; charset=utf-8" };
 class ValidationError extends Error {}
 
@@ -66,6 +67,7 @@ const readAndValidate = (raw) => {
     endTime: clean(raw.endTime, 5),
     notes: clean(raw.notes, 600),
     website: clean(raw.website, 120),
+    whatsappConsent: raw.whatsappConsent === true,
     turnstileToken: clean(raw.turnstileToken, 2048)
   };
 
@@ -84,6 +86,7 @@ const readAndValidate = (raw) => {
     throw new ValidationError("Controleer het e-mailadres.");
   }
   if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(data.startTime) || !/^([01]\d|2[0-3]):[0-5]\d$/.test(data.endTime)) throw new ValidationError('Controleer de tijden.');
+  if (data.whatsappConsent && !stuiterbaasPhone(data.phone)) throw new ValidationError('Controleer je WhatsApp-nummer. Gebruik voor een buitenlands nummer ook de landcode.');
   Object.assign(data, stuiterbaasRentalDetails(raw));
   if (data.rentalDays === 1 && data.endTime <= data.startTime) throw new ValidationError('De eindtijd moet na de starttijd liggen.');
   if (!data.turnstileToken) {
@@ -99,50 +102,8 @@ const escapeHtml = (value) => String(value || "")
   .replace(/"/g, "&quot;")
   .replace(/'/g, "&#039;");
 
-const sendEmailNotification = async (data, env) => {
-  const required = ["RESEND_API_KEY", "BOOKING_TO_EMAIL", "BOOKING_FROM_EMAIL"];
-  if (required.some((key) => !env[key])) {
-    throw new Error("Email configuration is incomplete.");
-  }
-
-  const fields = [
-    ["Naam", data.name],
-    ["Telefoon", data.phone],
-    ["E-mail", data.email || "Niet ingevuld"],
-    ["Huurperiode", data.rentalDays + (data.rentalDays === 1 ? " dag" : " dagen")],
-    ["Van", data.date + " om " + data.startTime],
-    ["Tot", data.endDate + " om " + data.endTime],
-    ["Huur", data.rentalPrice === null ? "In overleg" : "€" + data.rentalPrice],
-    ["Borg bovenop de huur", "€" + data.deposit],
-    ["Totaal inclusief borg", data.total === null ? "Nog af te spreken; €50 borg bovenop de huur" : "€" + data.total],
-    ["Locatie", data.location],
-    ["Opmerking", data.notes || "Geen opmerkingen"]
-  ];
-  const textBody = [
-    "Nieuwe reserveringsaanvraag via stuiterbaas.nl",
-    "",
-    ...fields.map(([label, value]) => label + ": " + value),
-    "",
-    "Deze aanvraag is nog geen definitieve reservering."
-  ].join("\n");
-  const rows = fields.map(([label, value]) =>
-    "<tr><th align=\"left\" style=\"padding:6px 14px 6px 0;vertical-align:top\">" + escapeHtml(label) +
-    "</th><td style=\"padding:6px 0\">" + escapeHtml(value) + "</td></tr>"
-  ).join("");
-  const htmlBody =
-    "<h1 style=\"font-size:20px\">Nieuwe reserveringsaanvraag</h1>" +
-    "<table style=\"border-collapse:collapse\">" + rows + "</table>" +
-    "<p><strong>Deze aanvraag is nog geen definitieve reservering.</strong></p>";
-
-  const message = {
-    from: env.BOOKING_FROM_EMAIL,
-    to: [env.BOOKING_TO_EMAIL],
-    subject: "Reserveringsaanvraag " + data.date + " – " + data.name,
-    text: textBody,
-    html: htmlBody
-  };
-  if (data.email) message.reply_to = data.email;
-
+const sendEmailNotification = async (message, env) => {
+  if (!env.RESEND_API_KEY) throw new Error("Email configuration is incomplete.");
   const response = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
@@ -204,8 +165,8 @@ export default {
         return json({ message: "De beveiligingscontrole is verlopen. Probeer het opnieuw." }, 400, origin);
       }
 
-      await sendEmailNotification(data, env);
-      return json({ ok: true }, 202, origin);
+      const confirmation = await completeStuiterbaasBooking(data, env, sendEmailNotification);
+      return json(confirmation, 202, origin);
     } catch (error) {
       const isValidationError = error instanceof ValidationError;
       const userError = isValidationError ? error.message : "De aanvraag kon niet worden verstuurd.";
