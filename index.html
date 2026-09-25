@@ -24,7 +24,7 @@
   <meta name="twitter:image" content="https://stuiterbaas.nl/springkussen-3.webp" />
   <link rel="icon" href="stuiterbaas-favicon.png" type="image/png" />
   <link rel="preload" as="image" href="springkussen-3.webp" type="image/webp" fetchpriority="high" />
-  <link rel="stylesheet" href="styles-v12.css?v=14" />
+  <link rel="stylesheet" href="styles-v13.css?v=1" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -38,6 +38,8 @@
     "image": "https://stuiterbaas.nl/springkussen-3.webp",
     "priceRange": "€€",
     "areaServed": ["Wamel", "Nieuwegein"],
+    "vatID": "NL005403580B64",
+    "identifier": {"@type": "PropertyValue", "propertyID": "KvK", "value": "99668637"},
     "makesOffer": {
       "@type": "Offer",
       "price": "95",
@@ -51,221 +53,64 @@
   </script>
 </head>
 <body>
+  <a class="skip-link" href="#inhoud">Naar de inhoud</a>
   <header class="site-header">
     <div class="wrap header-inner">
-      <details class="mobile-menu">
-        <summary>☰ Menu</summary>
-        <div class="mobile-panel">
-          <a href="#aanbod">Springkussen</a>
-          <a href="#fotos">Foto's</a>
-          <a href="#werkwijze">Werkwijze</a>
-          <a href="#veiligheid">Veiligheid</a>
-          <a href="#reserveren">Reserveren</a>
-          <a href="#contact">Contact</a>
-        </div>
-      </details>
-
-      <nav class="desktop-nav" aria-label="Hoofdnavigatie">
-        <a href="#aanbod">Springkussen</a>
-        <a href="#fotos">Foto's</a>
-        <a href="#werkwijze">Werkwijze</a>
-        <a href="#veiligheid">Veiligheid</a>
-        <a href="#reserveren">Reserveren</a>
-      </nav>
-
-      <a class="header-brand" href="#top" aria-label="Stuiterbaas home">
-        <span class="logo-crop header-logo-crop"><img src="stuiterbaas-logo.webp" alt="Stuiterbaas" width="1000" height="667" /></span>
-        <span class="brand-slogan">Zorgeloos springplezier</span>
-      </a>
-
-      <a class="header-cta" href="#reserveren">Reserveren</a>
+      <a class="header-brand" href="#top" aria-label="Stuiterbaas, naar boven"><span class="logo-crop header-logo-crop"><img src="stuiterbaas-logo.webp" alt="Stuiterbaas" width="1000" height="667"></span></a>
+      <nav class="desktop-nav" aria-label="Hoofdnavigatie"><a href="#aanbod">Het kasteel</a><a href="#fotos">Foto’s</a><a href="#praktisch">Goed om te weten</a></nav>
+      <a class="header-cta" href="#reserveren">Datum aanvragen <span aria-hidden="true">↗</span></a>
+      <details class="mobile-menu"><summary aria-label="Menu openen">Menu <span aria-hidden="true">☰</span></summary><nav class="mobile-panel" aria-label="Mobiele navigatie"><a href="#aanbod">Het kasteel</a><a href="#fotos">Foto’s</a><a href="#praktisch">Goed om te weten</a><a href="#reserveren">Datum aanvragen</a><a href="#contact">Contact</a></nav></details>
     </div>
   </header>
-
-  <main id="top">
-    <section class="hero">
+  <main id="inhoud">
+    <div id="top"></div>
+    <section class="hero" id="aanbod" aria-labelledby="hero-title">
       <div class="wrap hero-grid">
         <div class="hero-copy">
-          <span class="eyebrow">Springkussenverhuur vanuit Wamel & Nieuwegein</span>
-          <h1>Maak van elke dag een <span>stuiterdag.</span></h1>
-          <p class="lead">Een groot blauw-wit kasteel voor kinderfeestjes, verjaardagen en gezellige dagen thuis. Stuiterbaas bezorgt het springkussen en is altijd aanwezig bij de op- én afbouw.</p>
-
-          <div class="hero-actions">
-            <a class="btn primary" href="#reserveren">Reserveer via de site</a>
-            <a class="btn secondary wa-btn" href="https://wa.me/31683542218?text=Hallo%20Stuiterbaas!%20Ik%20wil%20graag%20informeren%20naar%20de%20beschikbaarheid%20van%20het%20springkussen.%0A%0ANaam:%20%0ADatum:%20%0ALocatie:%20%0AGewenste%20tijden:%20%0AOpstelplek%20op%20priv%C3%A9terrein:%20ja/nee%0A" target="_blank" rel="noopener"><span>Reserveer via WhatsApp</span></a>
-          </div>
-
-          <div class="hero-points">
-            <span>✓ €95 per dag</span>
-            <span>✓ €50 borg</span>
-            <span>✓ Begeleide op- & afbouw inbegrepen</span>
-            <span>✓ Dicht dak</span>
-          </div>
+          <span class="eyebrow">Springkussen huren · Wamel &amp; Nieuwegein</span>
+          <h1 id="hero-title">Groot plezier.<br><span>Goed geregeld.</span></h1>
+          <p class="lead">Een blauw-wit kasteel voor een onvergetelijk kinderfeestje. Wij bezorgen en begeleiden de op- en afbouw.</p>
+          <div class="hero-price"><strong>€95</strong><span>per dag<br><small>+ €50 borg</small></span></div>
+          <p class="delivery-note">Inclusief bezorgen en begeleide op- en afbouw binnen 10 km van Wamel of Nieuwegein.</p>
+          <a class="btn primary" href="#reserveren">Vraag je datum aan <span aria-hidden="true">↗</span></a>
+          <p class="hero-footnote">Je ontvangt een persoonlijke bevestiging.</p>
         </div>
-
-        <div class="hero-photo">
-          <img src="springkussen-3.webp" alt="Het echte grote blauw-witte kasteel van Stuiterbaas" width="1600" height="1200" fetchpriority="high" decoding="async" />
-          <div class="price-badge"><small>vanaf</small><strong>€95</strong><span>per dag</span></div>
-          <div class="size-badge">4,40 × 4,80 m • 4,50 m hoog</div>
-        </div>
+        <figure class="hero-photo"><img src="springkussen-3.webp" alt="Het blauw-witte Stuiterbaas-kasteel met overdekt springvlak" width="1600" height="1200" fetchpriority="high" decoding="async"><figcaption><span>Ons blauw-witte kasteel</span><span>Voor jouw feest</span></figcaption></figure>
       </div>
+      <dl class="wrap product-facts"><div><dt>Afmetingen</dt><dd>4,40 × 4,80 m</dd></div><div><dt>Hoogte</dt><dd>4,50 m</dd></div><div><dt>Samen spelen</dt><dd>Max. 6 kinderen</dd></div><div><dt>Uitvoering</dt><dd>Dicht dak &amp; achternet</dd></div></dl>
     </section>
 
-    <section class="quick-info" aria-label="Belangrijke informatie">
-      <div class="wrap quick-grid">
-        <div class="quick-item"><span class="quick-mark"></span><div><strong>Bezorging</strong><small>Binnen 10 km vanaf Wamel of Nieuwegein</small></div></div>
-        <div class="quick-item"><span class="quick-mark"></span><div><strong>Samen op- & afbouwen</strong><small>Stuiterbaas is er altijd bij</small></div></div>
-        <div class="quick-item"><span class="quick-mark"></span><div><strong>230V stroom</strong><small>Min. 1000 W vrije capaciteit</small></div></div>
-        <div class="quick-item"><span class="quick-mark"></span><div><strong>€50 borg</strong><small>Contant vóór de opbouw</small></div></div>
-      </div>
-    </section>
-
-    <section class="section" id="aanbod">
+    <section class="section photos-section" id="fotos" aria-labelledby="photos-title">
       <div class="wrap">
-        <div class="section-heading">
-          <span class="eyebrow">Ons springkussen</span>
-          <h2>Groot blauw-wit kasteel</h2>
-          <p>Klaar voor urenlang springplezier? Dit grote blauw-witte kasteel is een echte blikvanger voor een verjaardag, kinderfeestje of gezellige dag thuis.</p>
-        </div>
-
-        <div class="offer-grid">
-          <article class="offer-card">
-            <span class="card-label">Huurprijs</span>
-            <div class="big-price">€95 <small>per dag</small></div>
-            <ul class="spec-list">
-              <li><span>Breedte</span><strong>4,40 m</strong></li>
-              <li><span>Lengte</span><strong>4,80 m</strong></li>
-              <li><span>Hoogte</span><strong>4,50 m</strong></li>
-              <li><span>Uitvoering</span><strong>Blauw-wit kasteel</strong></li>
-              <li><span>Dak</span><strong>Dicht</strong></li>
-              <li><span>Borg</span><strong>€50</strong></li>
-            </ul>
-          </article>
-
-          <article class="offer-card included-card">
-            <span class="card-label">Bij de prijs inbegrepen</span>
-            <h3>Zorgeloos op- en afbouwen</h3>
-            <p>Bezorgen en begeleide op- en afbouw binnen een straal van <strong>10 km vanaf Wamel of Nieuwegein</strong> is inbegrepen.</p>
-            <p>Stuiterbaas is altijd aanwezig en begeleidt het hele proces. We vragen alleen dat er bij zowel de opbouw als de afbouw <strong>minimaal één volwassen persoon</strong> aanwezig is om even mee te helpen. Zo staat alles snel en netjes klaar.</p>
-            <p>Verder weg is bespreekbaar. Meerdere dagen huren kan ook; prijs op aanvraag.</p>
-
-            <div class="power-box">
-              <span>🔌</span>
-              <div>
-                <strong>Wat moet je zelf regelen?</strong>
-                <p>Een werkend, geaard <strong>230V-stroompunt met minimaal 1000 W vrije capaciteit</strong> in de buurt van de opstelplek en één volwassen helper bij op- en afbouw.</p>
-              </div>
-            </div>
-
-            <div class="inline-actions">
-              <a class="btn primary" href="#reserveren">Reserveer via de site</a>
-              <a class="btn secondary wa-btn" href="https://wa.me/31683542218?text=Hallo%20Stuiterbaas!%20Ik%20wil%20graag%20informeren%20naar%20de%20beschikbaarheid%20van%20het%20springkussen.%0A%0ANaam:%20%0ADatum:%20%0ALocatie:%20%0AGewenste%20tijden:%20%0AOpstelplek%20op%20priv%C3%A9terrein:%20ja/nee%0A" target="_blank" rel="noopener"><span>Reserveer via WhatsApp</span></a>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section alt" id="fotos">
-      <div class="wrap">
-        <div class="section-heading">
-          <span class="eyebrow">Foto's</span>
-          <h2>Bekijk het springkussen</h2>
-          <p>Dit is het model dat bij jou wordt bezorgd. Bekijk het alvast van alle kanten.</p>
-        </div>
+        <div class="section-heading"><div><span class="eyebrow">Dit staat straks op jouw feest</span><h2 id="photos-title">Een kasteel vol plezier.</h2></div><p>Echte foto’s van ons eigen springkussen.<br> Zo weet je precies wat je huurt.</p></div>
         <div class="gallery">
-          <figure class="gallery-main"><img src="springkussen-3.webp" alt="Vooraanzicht van het blauw-witte kasteel" width="1600" height="1200" loading="lazy" decoding="async" /><figcaption>Vooraanzicht</figcaption></figure>
-          <figure><img src="springkussen-2.webp" alt="Schuin vooraanzicht met de kasteeltorens" width="1200" height="1600" loading="lazy" decoding="async" /><figcaption>Schuin vooraanzicht</figcaption></figure>
-          <figure><img src="springkussen-4.webp" alt="Zijaanzicht van het springkussen met dicht dak" width="1200" height="1600" loading="lazy" decoding="async" /><figcaption>Zijkant en dicht dak</figcaption></figure>
-          <figure><img src="springkussen-1.webp" alt="Binnenzijde en springvlak van het kasteel" width="1600" height="1200" loading="lazy" decoding="async" /><figcaption>Binnenzijde</figcaption></figure>
-          <figure><img src="springkussen-achterzijde.webp" alt="Achterzijde van het springkussen met beschermend net" width="1600" height="1200" loading="lazy" decoding="async" /><figcaption>Achterzijde met net</figcaption></figure>
-          <figure><img src="springkussen-opbouw-blower.webp" alt="Achterzijde van het springkussen tijdens de opbouw met blower" width="1050" height="1400" loading="lazy" decoding="async" /><figcaption>Opbouw en blower</figcaption></figure>
-          <figure class="gallery-sfeer"><img src="springkussen-sfeerbeeld.webp" alt="Sfeerbeeld van kinderen die onder toezicht springen op het blauw-witte kasteel met zwart veiligheidsnet" width="1585" height="992" loading="lazy" decoding="async" /><figcaption>Sfeerbeeld op basis van ons eigen kasteel</figcaption></figure>
+          <figure><img src="springkussen-2.webp" alt="Het kasteel van schuin voren, met blauw-witte torens" width="1200" height="1600" loading="lazy" decoding="async"><figcaption>Een echte blikvanger</figcaption></figure>
+          <figure><img src="springkussen-1.webp" alt="Het springvlak aan de binnenzijde van het kasteel" width="1600" height="1200" loading="lazy" decoding="async"><figcaption>Alle ruimte om te springen</figcaption></figure>
+          <figure><img src="springkussen-achterzijde.webp" alt="De achterkant van het kasteel met het zwarte net" width="1600" height="1200" loading="lazy" decoding="async"><figcaption>Achterzijde met zwart net</figcaption></figure>
         </div>
       </div>
     </section>
 
-    <section class="section" id="werkwijze">
-      <div class="wrap">
-        <div class="section-heading">
-          <span class="eyebrow">Zo werkt het</span>
-          <h2>Van aanvraag tot stuiteren</h2>
+    <section class="section practical-section" id="praktisch" aria-labelledby="practical-title">
+      <div class="wrap practical-grid">
+        <div id="werkwijze"><span class="eyebrow">Persoonlijk geregeld</span><h2 id="practical-title">Jij het feest.<br>Wij het springkussen.</h2>
+          <ol class="steps"><li><span>01</span><div><h3>Kies je dag</h3><p>Stuur je datum en locatie. We bevestigen de beschikbaarheid persoonlijk.</p></div></li><li><span>02</span><div><h3>Wij komen langs</h3><p>We bezorgen en begeleiden de opbouw. Eén volwassene helpt mee.</p></div></li><li><span>03</span><div><h3>Geniet van het feest</h3><p>Na afloop begeleiden we ook de afbouw, samen met je helper.</p></div></li></ol>
         </div>
-        <div class="steps">
-          <article class="step"><span>1</span><h3>Aanvraag</h3><p>Vul het reserveringsformulier in met de datum, locatie en gewenste tijden.</p></article>
-          <article class="step"><span>2</span><h3>Bevestiging</h3><p>Je krijgt snel bericht over de beschikbaarheid en de afspraken. De huur vindt plaats op de afgesproken particuliere opstellocatie.</p></article>
-          <article class="step"><span>3</span><h3>Samen opbouwen</h3><p>Stuiterbaas komt met het springkussen, bepaalt de opstelplek en begeleidt de opbouw, verankering en aansluiting. Eén volwassene helpt even mee.</p></article>
-          <article class="step"><span>4</span><h3>Springen & afbouwen</h3><p>Jullie genieten van de dag. Na afloop komt Stuiterbaas terug en breken we het samen met één volwassen helper weer netjes af.</p></article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section alt" id="veiligheid">
-      <div class="wrap safety-grid">
-        <div>
-          <span class="eyebrow">Veilig gebruik</span>
-          <h2>Plezier begint met goed toezicht</h2>
-          <p>Tijdens het gebruik is altijd toezicht door minimaal één verantwoordelijke volwassene nodig. Bij plaatsing nemen we de belangrijkste regels samen door.</p>
-          <ul class="checklist">
-            <li>Maximaal 6 kinderen tegelijk; volwassenen springen niet mee</li>
-            <li>Alleen op de afgesproken particuliere opstellocatie</li>
-            <li>Springkussen en verankering niet verplaatsen of aanpassen</li>
-            <li>Schoenen, sieraden en scherpe voorwerpen uit</li>
-            <li>Bij regen direct stoppen met springen</li>
-            <li>Bij windkracht 4 of hoger, harde windstoten of onweer: direct stoppen</li>
-          </ul>
-        </div>
-        <aside class="notice">
-          <span>ℹ️</span>
-          <div>
-            <strong>Goed om te weten</strong>
-            <p>Zorg dat de opstelplek goed bereikbaar is, privéterrein is en dat er een geaard 230V-stroompunt met voldoende vrije capaciteit in de buurt aanwezig is.</p>
-          </div>
-        </aside>
-      </div>
-    </section>
-
-    <section class="section" id="faq">
-      <div class="wrap">
-        <div class="section-heading">
-          <span class="eyebrow">Veelgestelde vragen</span>
-          <h2>Handig om vooraf te weten</h2>
-        </div>
-
-        <div class="faq">
-          <details><summary>Hoeveel ruimte heb ik nodig?</summary><p>Het springkussen zelf is 4,40 meter breed en 4,80 meter lang. Rondom is extra vrije ruimte nodig voor plaatsing en verankering. Stuur gerust vooraf een foto van de opstelplek.</p></details>
-          <details><summary>Waar mag het springkussen staan?</summary><p>Stuiterbaas verhuurt voor particulier gebruik op de vooraf afgesproken privé-opstellocatie. Het springkussen wordt niet geplaatst voor openbaar of vrij toegankelijk gebruik.</p></details>
-          <details><summary>Moet ik het springkussen zelf opbouwen?</summary><p>Nee. Stuiterbaas is bij de volledige op- en afbouw aanwezig en begeleidt het werk. We vragen wel dat er bij zowel opbouw als afbouw minimaal één volwassen persoon aanwezig is om even mee te helpen.</p></details>
-          <details><summary>Is bezorgen inbegrepen?</summary><p>Ja, bezorgen en begeleide op- en afbouw is inbegrepen binnen 10 km vanaf Wamel of Nieuwegein. Verder weg is bespreekbaar.</p></details>
-          <details><summary>Hoeveel kinderen mogen erop?</summary><p>Maximaal 6 kinderen tegelijk. Grote en kleine kinderen laten we bij voorkeur niet tegelijk springen. Volwassenen gebruiken het springkussen niet.</p></details>
-          <details><summary>Wat gebeurt er bij slecht weer?</summary><p>Bij verwachte regen of onweer, windkracht 4 of hoger of andere onveilige omstandigheden wordt niet opgebouwd. Verandert het weer tijdens de huur, dan stopt het gebruik direct volgens de afgesproken veiligheidsregels.</p></details>
-          <details><summary>Heeft het springkussen een dak?</summary><p>Ja, dit model heeft een dicht dak. Bij regen wordt er ondanks het dak niet gesprongen.</p></details>
-          <details><summary>Hoe betaal ik?</summary><p>De huurprijs van €95 wordt vóór de start van de opbouw voldaan, bijvoorbeeld via betaalverzoek. De borg van €50 wordt contant voldaan vóór de opbouw.</p></details>
-          <details><summary>Kan ik meerdere dagen huren?</summary><p>Ja, meerdere dagen zijn bespreekbaar. De prijs daarvoor is op aanvraag.</p></details>
-          <details><summary>Hoe reserveer ik?</summary><p>Vul het formulier op deze pagina in. Je blijft op de site en ontvangt daarna bericht over de beschikbaarheid. Liever zelf appen? Kies dan de aparte knop ‘Reserveer via WhatsApp’.</p></details>
+        <div class="faq" id="faq">
+          <h3>Goed om te weten</h3>
+          <details><summary>Past het in mijn tuin?</summary><p>Het kasteel is 4,40 m breed, 4,80 m lang en 4,50 m hoog. Houd rondom extra ruimte vrij voor plaatsing en verankering. De plek moet bereikbaar zijn en op privéterrein liggen. Twijfel je? Stuur ons een foto.</p></details>
+          <details><summary>Wat regel ik zelf?</summary><p>Een geaard 230V-stroompunt met minimaal 1000 W vrije capaciteit en één volwassen helper bij zowel op- als afbouw. Tijdens het springen houdt een verantwoordelijke volwassene voortdurend toezicht.</p></details>
+          <details><summary>Betalen, bezorgen en langer huren</summary><p>Je betaalt €95 huur vóór de opbouw, bijvoorbeeld via een betaalverzoek. De borg van €50 betaal je vooraf contant. Bezorgen en begeleide op- en afbouw binnen 10 km van Wamel of Nieuwegein zijn inbegrepen. Verder weg of meerdere dagen? We spreken de prijs vooraf met je af.</p></details>
+          <details><summary>Wat als het weer tegenzit?</summary><p>Bij verwachte regen, onweer, windkracht 4 of hoger of andere onveilige omstandigheden bouwen we niet op. Bij regen, harde windstoten, onweer of windkracht 4 of hoger tijdens de huur stop je direct met springen. Dat geldt ook met het dichte dak.</p></details>
+          <details id="veiligheid"><summary>De afspraken voor veilig springen</summary><ul><li>Maximaal 6 kinderen tegelijk; volwassenen springen niet mee.</li><li>Voortdurend toezicht door een verantwoordelijke volwassene.</li><li>Grote en kleine kinderen bij voorkeur apart laten springen.</li><li>Schoenen, sieraden en scherpe voorwerpen uit.</li><li>Het kussen en de verankering niet verplaatsen of aanpassen.</li><li>Alleen op de afgesproken privé-opstellocatie; geen openbaar of vrij toegankelijk gebruik.</li></ul><p>Bij de opbouw nemen we de regels samen door.</p></details>
         </div>
       </div>
     </section>
 
-    <section class="section reservation-section" id="reserveren">
+    <section class="section reservation-section" id="reserveren" aria-labelledby="reservation-title">
       <div class="wrap reservation-grid">
-        <div class="reservation-intro">
-          <span class="eyebrow">Reserveren via de site</span>
-          <h2>Vraag jouw datum aan</h2>
-          <p>Vul je gegevens in en verstuur de aanvraag zonder de website te verlaten. Stuiterbaas ontvangt de aanvraag per e-mail en laat je zo snel mogelijk weten of het springkussen beschikbaar is.</p>
-          <div class="reservation-summary">
-            <strong>Goed om vooraf te weten</strong>
-            <ul>
-              <li>€95 per dag en €50 borg</li>
-              <li>Privéterrein met voldoende vrije ruimte</li>
-              <li>Geaard 230V-stroompunt met minimaal 1000 W vrije capaciteit</li>
-              <li>Eén volwassen helper bij de op- en afbouw</li>
-            </ul>
-          </div>
-          <p class="reservation-note">Een aanvraag is nog geen definitieve reservering. Je ontvangt eerst een persoonlijke bevestiging.</p>
-        </div>
-
-        <form class="booking-form" id="booking-form" novalidate>
+        <div class="reservation-intro"><span class="eyebrow">Maak er een stuiterdag van</span><h2 id="reservation-title">Welke dag wordt<br>jouw feestje?</h2><p>Stuur je aanvraag. Wij laten je weten of het kasteel beschikbaar is.</p><p class="reservation-note">Je reservering is definitief na onze persoonlijke bevestiging.</p><div class="direct-contact"><strong>Liever even appen?</strong><a href="https://wa.me/31683542218?text=Hallo%20Stuiterbaas!%20Ik%20wil%20graag%20een%20springkussen%20huren." target="_blank" rel="noopener">Reserveer via WhatsApp <span aria-hidden="true">↗</span></a></div></div>
+        <form class="booking-form" id="booking-form" method="post" novalidate>
           <div class="form-row two-columns">
             <label>
               <span>Naam *</span>
@@ -279,7 +124,7 @@
 
           <div class="form-row two-columns">
             <label>
-              <span>E-mailadres</span>
+              <span>E-mailadres <small>optioneel</small></span>
               <input type="email" name="email" autocomplete="email" maxlength="120" />
             </label>
             <label>
@@ -289,7 +134,7 @@
           </div>
 
           <label class="form-row">
-            <span>Adres of plaats van de opstelplek *</span>
+            <span>Waar komt het springkussen? *</span>
             <input type="text" name="location" autocomplete="street-address" maxlength="140" required />
           </label>
 
@@ -305,16 +150,16 @@
           </div>
 
           <label class="form-row">
-            <span>Opmerking of vraag</span>
-            <textarea name="notes" rows="4" maxlength="600" placeholder="Bijvoorbeeld informatie over de bereikbaarheid of opstelplek"></textarea>
+            <span>Opmerking <small>optioneel</small></span>
+            <textarea name="notes" rows="3" maxlength="600" placeholder="Bijvoorbeeld informatie over de bereikbaarheid of opstelplek"></textarea>
           </label>
 
           <fieldset class="booking-checks">
-            <legend>Bevestig voor je aanvraag *</legend>
+            <legend>Op jouw locatie</legend>
             <label><input type="checkbox" name="privateSite" required /> <span>De opstelplek is op privéterrein.</span></label>
             <label><input type="checkbox" name="powerAvailable" required /> <span>Er is een geaard 230V-stroompunt met minimaal 1000 W vrije capaciteit.</span></label>
-            <label><input type="checkbox" name="adultHelper" required /> <span>Er is één volwassen helper aanwezig bij de op- en afbouw.</span></label>
-            <label><input type="checkbox" name="privacyConsent" required /> <span>Stuiterbaas mag mijn gegevens gebruiken om contact op te nemen over deze aanvraag.</span></label>
+            <label><input type="checkbox" name="adultHelper" required /> <span>Eén volwassene helpt bij de op- en afbouw.</span></label>
+            <label><input type="checkbox" name="privacyConsent" required /> <span>Stuiterbaas mag contact opnemen over mijn aanvraag.</span></label>
           </fieldset>
 
           <label class="website-field" aria-hidden="true">
@@ -323,44 +168,23 @@
           </label>
 
           <div id="turnstile-container" class="turnstile-container" hidden></div>
-          <button class="btn primary big booking-submit" type="submit">Verstuur reserveringsaanvraag</button>
-          <p class="form-help">Je blijft op deze pagina. We openen geen WhatsApp op jouw telefoon.</p>
-          <p class="form-help">Je gegevens worden alleen gebruikt om deze aanvraag te behandelen.</p>
+          <button class="btn primary big booking-submit" type="submit" disabled>Verstuur reserveringsaanvraag</button>
+          <p class="form-help">Je gegevens gebruiken we voor je aanvraag. <a href="privacy.html">Privacy</a></p>
+          <noscript><p class="form-help">Zet JavaScript aan om het formulier te gebruiken, of neem <a href="#contact">contact</a> op.</p></noscript>
           <div class="booking-status" id="booking-status" role="status" aria-live="polite"></div>
         </form>
       </div>
     </section>
-
-    <section class="contact" id="contact">
-      <div class="wrap contact-inner">
-        <div>
-          <span class="eyebrow contact-eyebrow">Liever direct contact?</span>
-          <h2>App of mail Stuiterbaas</h2>
-          <p>Deze knoppen openen WhatsApp of je mailprogramma. Voor een aanvraag zonder de site te verlaten gebruik je het formulier hierboven.</p>
-        </div>
-        <div class="contact-actions">
-          <a class="btn primary big wa-btn" href="https://wa.me/31683542218?text=Hallo%20Stuiterbaas!%20Ik%20wil%20graag%20informeren%20naar%20de%20beschikbaarheid%20van%20het%20springkussen.%0A%0ANaam:%20%0ADatum:%20%0ALocatie:%20%0AGewenste%20tijden:%20%0AOpstelplek%20op%20priv%C3%A9terrein:%20ja/nee%0A" target="_blank" rel="noopener"><span>Reserveer via WhatsApp</span></a>
-          <a class="btn white big" href="mailto:verhuur@stuiterbaas.nl?subject=Beschikbaarheid%20springkussen">✉️ verhuur@stuiterbaas.nl</a>
-        </div>
-      </div>
-    </section>
   </main>
-
-  <footer>
+  <footer class="site-footer" id="contact">
     <div class="wrap footer-grid">
-      <div class="footer-brand">
-        <span class="logo-crop footer-logo-crop"><img src="stuiterbaas-logo.webp" alt="Stuiterbaas" width="1000" height="667" loading="lazy" decoding="async" /></span>
-        <div><strong>Stuiterbaas</strong><span>Zorgeloos springplezier</span></div>
-      </div>
-      <div class="footer-place">Wamel & Nieuwegein</div>
-      <div class="footer-contact">
-        <a class="footer-wa" href="https://wa.me/31683542218?text=Hallo%20Stuiterbaas!%20Ik%20wil%20graag%20informeren%20naar%20de%20beschikbaarheid%20van%20het%20springkussen.%0A%0ANaam:%20%0ADatum:%20%0ALocatie:%20%0AGewenste%20tijden:%20%0AOpstelplek%20op%20priv%C3%A9terrein:%20ja/nee%0A" target="_blank" rel="noopener"><span>Reserveer via WhatsApp</span></a>
-        <a href="mailto:verhuur@stuiterbaas.nl">verhuur@stuiterbaas.nl</a>
-      </div>
+      <div class="footer-brand"><span class="logo-crop footer-logo-crop"><img src="stuiterbaas-logo.webp" alt="Stuiterbaas" width="1000" height="667" loading="lazy" decoding="async"></span><p>Zorgeloos springplezier.<br><span>Wamel &amp; Nieuwegein</span></p></div>
+      <div class="footer-contact"><h2>Even overleggen?</h2><a href="tel:+31683542218">06 83 54 22 18</a><a href="mailto:verhuur@stuiterbaas.nl">verhuur@stuiterbaas.nl</a></div>
+      <div class="footer-company"><h2>Bedrijfsgegevens</h2><span>Stuiterbaas · Van Raaij Services</span><span>KvK 99668637</span><span>BTW-id NL005403580B64</span><a href="privacy.html">Privacy</a></div>
     </div>
     <div class="wrap footer-credit"><span>Website gemaakt en beheerd door</span><a class="solutions-logo-link" href="https://vanraaijsolutions.nl/" target="_blank" rel="noopener noreferrer" aria-label="Van Raaij Solutions — opent in een nieuw tabblad"><img src="van-raaij-solutions-logo.webp" alt="Van Raaij Solutions" width="1774" height="887" loading="lazy" decoding="async"></a></div>
   </footer>
   <script src="booking-config.js"></script>
-  <script src="booking.js"></script>
+  <script src="booking.js?v=2"></script>
 </body>
 </html>
