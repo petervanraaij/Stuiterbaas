@@ -20,6 +20,20 @@
     pad(today.getDate())
   ].join("-");
 
+  const validateWhatsAppPhone = () => {
+    const phone = form.elements.phone.value.trim();
+    let digits = phone.replace(/\D/g, '');
+    if (digits.startsWith('00')) digits = digits.slice(2);
+    if (digits.startsWith('310')) digits = '31' + digits.slice(3);
+    if (digits.startsWith('0')) digits = '31' + digits.slice(1);
+    const valid = /^\+?[\d\s().-]+$/.test(phone) && /^[1-9]\d{7,14}$/.test(digits) && (!digits.startsWith('31') || digits.length === 11);
+    form.elements.phone.setCustomValidity(form.elements.whatsappConsent.checked && !valid
+      ? 'Controleer je WhatsApp-nummer. Gebruik voor een buitenlands nummer ook de landcode.' : '');
+  };
+  form.elements.phone.addEventListener('input', validateWhatsAppPhone);
+  form.elements.whatsappConsent.addEventListener('change', validateWhatsAppPhone);
+  form.addEventListener('reset', () => window.setTimeout(validateWhatsAppPhone, 0));
+
   const endDateInput = form.elements.endDate;
   const updateRentalSummary = () => {
     const longer = form.elements.rentalDays.value === 'longer';
@@ -99,6 +113,7 @@
     if (submitButton.disabled) return;
     clearStatus();
     validateTimes();
+    validateWhatsAppPhone();
 
     if (!form.checkValidity()) {
       form.reportValidity();
@@ -137,6 +152,7 @@
       startTime: formData.get("startTime"),
       endTime: formData.get("endTime"),
       notes: formData.get("notes"),
+      whatsappConsent: formData.get("whatsappConsent") === "on",
       website: formData.get("website"),
       turnstileToken
     };
@@ -160,7 +176,11 @@
       }
 
       form.reset();
-      showStatus("Gelukt! Je aanvraag is verstuurd. Stuiterbaas neemt zo snel mogelijk contact met je op om de beschikbaarheid te bevestigen.", "success");
+      const reference = /^SB-[A-F0-9]{12}$/.test(result.reference || '') ? ' Aanvraagnummer: ' + result.reference + '.' : '';
+      const contact = payload.whatsappConsent
+        ? ' Stuiterbaas neemt via WhatsApp contact met je op om de beschikbaarheid te bevestigen.'
+        : ' Stuiterbaas neemt contact met je op om de beschikbaarheid te bevestigen.';
+      showStatus('Gelukt! Je aanvraag is ontvangen.' + reference + contact + ' Je reservering is daarna pas definitief.', 'success');
       if (window.turnstile && turnstileWidgetId !== null) {
         window.turnstile.reset(turnstileWidgetId);
       }

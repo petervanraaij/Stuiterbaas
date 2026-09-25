@@ -1,5 +1,9 @@
 # Stuiterbaas reserveringsservice
 
+**Productie gebruikt de gecombineerde Worker in de Lattenspecialist-repository. Deploy deze losse kopie niet naar de bestaande productie-Worker.**
+
+Zie [WhatsApp-bevestiging](WHATSAPP-STUITERBAAS.md) voor de huidige handmatige werkwijze en de voorbereide, nog uitgeschakelde automatische koppeling.
+
 Deze Cloudflare Worker ontvangt het formulier van stuiterbaas.nl, controleert de aanvraag met Cloudflare Turnstile en stuurt daarna via Resend een e-mail naar `verhuur@stuiterbaas.nl`.
 
 De WhatsApp Business-accounts en hun chatgeschiedenis worden door deze oplossing niet gekoppeld, omgezet of opgeheven. De bestaande knoppen `Reserveer via WhatsApp` blijven rechtstreeks naar WhatsApp verwijzen.
