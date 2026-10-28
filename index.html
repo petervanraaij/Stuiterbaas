@@ -25,6 +25,7 @@
   <link rel="icon" href="stuiterbaas-favicon.png" type="image/png" />
   <link rel="preload" as="image" href="springkussen-3.webp" type="image/webp" fetchpriority="high" />
   <link rel="stylesheet" href="styles-v13.css?v=5" />
+  <link rel="stylesheet" href="customer-choice.css?v=1" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -95,12 +96,25 @@
           <div class="hero-prices"><div class="hero-price"><strong>€95</strong><span>1 dag</span></div><div class="hero-price"><strong>€150</strong><span>2 dagen</span></div></div>
           <p class="deposit-note">Bij beide opties komt €50 borg bovenop de huur.</p>
           <p class="delivery-note">Inclusief bezorgen en begeleide op- en afbouw binnen 10 km van Wamel of Nieuwegein.</p>
-          <a class="btn primary" href="#reserveren">Vraag je datum aan <span aria-hidden="true">↗</span></a>
-          <p class="hero-footnote">Je ontvangt een persoonlijke bevestiging.</p>
+          <a class="btn primary" href="#huurduur">Kies je huurperiode <span aria-hidden="true">↗</span></a>
+          <p class="hero-footnote">Eerst je datum aanvragen. Je reservering is definitief na onze persoonlijke bevestiging.</p>
         </div>
         <figure class="hero-photo"><img src="springkussen-3.webp" alt="Het blauw-witte Stuiterbaas-kasteel met overdekt springvlak" width="1600" height="1200" fetchpriority="high" decoding="async"><figcaption><span>Ons blauw-witte kasteel</span><span>Voor jouw feest</span></figcaption></figure>
       </div>
       <dl class="wrap product-facts"><div><dt>Afmetingen</dt><dd>4,40 × 4,80 m</dd></div><div><dt>Hoogte</dt><dd>4,50 m</dd></div><div><dt>Uitvoering</dt><dd>Dicht dak &amp; achternet</dd></div></dl>
+    </section>
+
+    <section class="section rental-choice" id="huurduur" aria-labelledby="rental-choice-title">
+      <div class="wrap">
+        <div class="section-heading"><div><span class="eyebrow">Jouw feest, jouw huurperiode</span><h2 id="rental-choice-title">Eén feestdag of twee dagen plezier?</h2></div><p>Kies je huurperiode. Je neemt de keuze mee naar je aanvraag en kunt die daar nog aanpassen.</p></div>
+        <div class="rental-options">
+          <article><span class="rental-label">Voor één feestdag</span><h3>1 dag springen</h3><p class="rental-amount">€95 <span>huur</span></p><p>Een dag vol speelplezier in het blauw-witte kasteel.</p><dl><div><dt>Huur</dt><dd>€95</dd></div><div><dt>Borg</dt><dd>€50</dd></div><div class="rental-total"><dt>Samen</dt><dd>€145</dd></div></dl><button type="button" class="btn primary" data-rental-choice="1">Kies 1 dag <span aria-hidden="true">→</span></button></article>
+          <article><span class="rental-label">Voor twee aansluitende dagen</span><h3>2 dagen springen</h3><p class="rental-amount">€150 <span>huur</span></p><p>Een extra dag plezier voor €55 meer huur. Gemiddeld €75 huur per dag.</p><dl><div><dt>Huur</dt><dd>€150</dd></div><div><dt>Borg</dt><dd>€50</dd></div><div class="rental-total"><dt>Samen</dt><dd>€200</dd></div></dl><button type="button" class="btn primary" data-rental-choice="2">Kies 2 dagen <span aria-hidden="true">→</span></button></article>
+        </div>
+        <p class="rental-included"><strong>Bij beide inbegrepen:</strong> bezorgen en begeleide op- en afbouw binnen 10 km van Wamel of Nieuwegein. Eén volwassene helpt mee. Verder weg? We spreken de prijs vooraf af.</p>
+        <p class="rental-borg">De borg krijg je bij het ophalen terug na controle. Schade bespreken we voordat we iets inhouden. Je betaalt de huur vóór de opbouw en de borg vooraf contant.</p>
+        <noscript><p><a href="#reserveren">Kies je huurperiode in het aanvraagformulier →</a></p></noscript>
+      </div>
     </section>
 
     <section class="section photos-section" id="fotos" aria-labelledby="photos-title">
@@ -220,5 +234,6 @@
   </footer>
   <script src="booking-config.js"></script>
   <script src="booking.js?v=6"></script>
+  <script src="customer-choice.js?v=1"></script>
 </body>
 </html>
