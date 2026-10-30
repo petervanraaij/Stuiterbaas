@@ -4,11 +4,10 @@
   "type": "module",
   "scripts": {
     "dev": "wrangler dev",
-    "deploy": "wrangler deploy",
+    "deploy": "node deploy-guard.mjs",
     "test": "node test.mjs && node stuiterbaas-whatsapp.test.mjs"
   },
   "devDependencies": {
     "wrangler": "^4.0.0"
   }
 }
-
