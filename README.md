@@ -11,3 +11,9 @@ Een keuze vult uitsluitend `rentalDays` in het bestaande aanvraagformulier en ge
 ## Controle
 
 `node --check customer-choice.js` en `npm --prefix worker test`. De keuzes zijn daarnaast op 1440 en 390 pixels in Chrome gecontroleerd: heen en terug tussen één/twee/langer huren, correcte totalen, uitgeschakelde einddatum na terugkeer naar één dag, geen automatische aanvraag of toestemming, geen horizontale pagina-overloop of browserfouten. Externe API-verzoeken waren tijdens die controle geblokkeerd. Publieke screenshots staan in `docs/screenshots/customer-choice-*.png`.
+
+## Eén productiebron voor de reserveringsdienst
+
+Stuiterbaas en Lattenspecialist gebruiken dezelfde Cloudflare Worker `stuiterbaas-reserveren`. De actuele productiebron staat in [petervanraaij/Lattenspecialist, map worker](https://github.com/petervanraaij/Lattenspecialist/tree/main/worker). Die bron bevat beide reserveringsstromen, bedrijfsgebonden oorsprongcontroles, meldingen en het werkplaatsbeheer.
+
+De oudere `worker/` in deze repository blijft uitsluitend als historie en voor regressievergelijking bewaard. `npm --prefix worker run deploy` is bewust geblokkeerd: deze oude versie zou anders de gedeelde dienst overschrijven en Lattenspecialist-functies verwijderen. Publiceer deze bron ook niet rechtstreeks met Wrangler. Websitewijzigingen aan Stuiterbaas blijven via deze repository lopen; wijzigingen aan de gedeelde dienst gaan centraal via Lattenspecialist en moeten beide reserveringsstromen testen. Dit is een bestaande externe dienst, nog geen algemene Pierfinity-API-integratie.
